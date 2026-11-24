@@ -79,12 +79,43 @@ let shoppingList = [];
             }
 
         });
-        // Allow Enter key to search
-        searchInput.addEventListener("keypress", function(event) {
+        
+        // Filter items
+        function filterItems(searchTerm) {
 
-            if (event.key === "Enter") {
+            return shoppingList.filter(function(item) {
 
-                renderCart(filterItems(searchInput.value.trim()));
+            return item.toLowerCase().includes(searchTerm.toLowerCase());
 
-    }
-    });
+        });
+
+        }
+
+        // Search button
+        searchButton.addEventListener("click", function() {
+
+            let searchTerm = searchInput.value.trim();
+
+            let results = filterItems(searchTerm);
+
+            cartList.innerHTML = "";
+
+            if (results.length === 0) {
+
+                cartList.innerHTML = "<li>No matching items found.</li>";
+
+                return;
+
+            }
+
+            for (let i = 0; i < results.length; i++) {
+
+                let listItem = document.createElement("li");
+
+                    listItem.innerText = results[i];
+
+                    cartList.appendChild(listItem);
+
+            }
+
+        });
